@@ -1,0 +1,94 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Heart Disease Prediction</h1>
+    <form id="prediction-form">
+        <label>Age: <input type="text" name="age" required></label>
+        <label>Sex (1 = Male; 0 = Female): <input type="text" name="sex" required></label>
+        <label>Chest Pain Type (0-3): <input type="text" name="cp" required></label>
+        <label>Resting Blood Pressure: <input type="text" name="trestbps" required></label>
+        <label>Cholesterol: <input type="text" name="chol" required></label>
+        <label>Fasting Blood Sugar (1 = true; 0 = false): <input type="text" name="fbs" required></label>
+        <label>Resting ECG Results (0-2): <input type="text" name="restecg" required></label>
+        <label>Maximum Heart Rate Achieved: <input type="text" name="thalach" required></label>
+        <label>Exercise Induced Angina (1 = Yes; 0 = No): <input type="text" name="exang" required></label>
+        <label>Oldpeak: <input type="text" name="oldpeak" required></label>
+        <label>Slope (0-2): <input type="text" name="slope" required></label>
+        <label>Number of Major Vessels (0-3): <input type="text" name="ca" required></label>
+        <label>Thalassemia (1 = normal; 2 = fixed defect; 3 = reversible defect): <input type="text" name="thal" required></label>
+        <button type="submit">Predict</button>
+    </form>
+    <div id="result"></div>
+    <script>
+        document.getElementById('prediction-form').onsubmit = async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const response = await fetch('/predict', {
+                method: 'POST',
+                body: formData,
+            });
+            const result = await response.json();
+            document.getElementById('result').innerText = result.prediction;
+        };
+    </script>
+</body>
+</html>
